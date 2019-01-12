@@ -1,0 +1,110 @@
+<div class="container" style="padding-top: 20px">
+  <form (ngSubmit)="submit()" [formGroup]="form">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+            <label for="dealTitle">Titulo da oferta</label>
+            <input id="dealTitle" formControlName="dealTitle" type="text" class="form-control" [(ngModel)]="deal.title">
+            <span *ngIf="form.controls.dealTitle && !form.controls.dealTitle.valid && !form.controls.dealTitle.pristine && form.controls.dealTitle.touched && form.controls.dealTitle.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.dealTitle.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="dealText">Texto de destaque</label>
+          <input id="dealText" formControlName="dealText" type="text" class="form-control" [(ngModel)]="deal.text">
+          <span *ngIf="form.controls.dealText && !form.controls.dealText.valid && !form.controls.dealText.pristine && form.controls.dealText.touched && form.controls.dealText.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.dealText.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="dealType">Tipo</label>
+          <select class="form-control" formControlName="dealType" id="dealType" [(ngModel)]="deal.type">
+            <option></option>
+            <option value="LOCAL">Local</option>
+            <option value="PRODUCT">Produto</option>
+            <option value="TRAVEL">Viagem</option>
+          </select>
+          <span *ngIf="form.controls.dealType && !form.controls.dealType.valid && !form.controls.dealType.pristine && form.controls.dealType.touched && form.controls.dealType.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.dealType.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="publishDate">Data de publicação</label>
+          <input id="publishDate" formControlName="publishDate" type="text" class="form-control"
+                 bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                 [(ngModel)]="deal.publishDate">
+          <span *ngIf="form.controls.publishDate && !form.controls.publishDate.valid && !form.controls.publishDate.pristine && form.controls.publishDate.touched && form.controls.publishDate.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.publishDate.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="dealValidity">Validade</label>
+          <input id="dealValidity" formControlName="dealValidity" type="number" class="form-control" [(ngModel)]="deal.endDate">
+          <span *ngIf="form.controls.dealValidity && !form.controls.dealValidity.valid && !form.controls.dealValidity.pristine && form.controls.dealValidity.touched && form.controls.dealValidity.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.dealValidity.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="dealUrl">Url</label>
+          <input id="dealUrl" type="text" class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="deal.url">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <button class="form-control btn btn-primary" type="submit">Salvar</button>
+      </div>
+    </div>
+  </form>
+  <div class="row" style="padding-top: 20px">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Titulo da oferta</th>
+          <th scope="col">Texto de destaque</th>
+          <th scope="col">Tipo</th>
+          <th scope="col">Data de publicação</th>
+          <th scope="col">Validade</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let deal of deals">
+          <td>{{deal.title}}</td>
+          <td>{{deal.text}}</td>
+          <td>{{deal.type | dealTypePipe}}</td>
+          <td>{{deal.publishDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{deal.endDate}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-outline hover-btn-icon-info"
+                    tooltip="Editar" (click)="edit(deal)">
+              <fa-icon icon="pencil-alt"></fa-icon>
+            </button>
+          </td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-outline hover-btn-icon-info"
+                    tooltip="Excluir" (click)="remove(deal.id)">
+              <fa-icon icon="trash-alt"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

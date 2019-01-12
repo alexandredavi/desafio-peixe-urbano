@@ -25,8 +25,12 @@ public class DealManager {
   }
 
   public List<Deal> findAll() {
+    return repository.findAll();
+  }
+  public List<Deal> findAllAvailable() {
     return repository.findAllByPublishDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now());
   }
+
 
   public String insert(Deal deal) {
     deal.setCreateDate(LocalDate.now());
