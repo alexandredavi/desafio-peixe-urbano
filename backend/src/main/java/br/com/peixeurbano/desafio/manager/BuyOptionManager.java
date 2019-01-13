@@ -25,7 +25,7 @@ public class BuyOptionManager {
   }
 
   public List<BuyOption> findAll() {
-    return repository.findAllByStartDateLessThanEqualAndEndDateGreaterThanEqual(LocalDate.now(), LocalDate.now());
+    return repository.findAll();
   }
 
   public String insert(BuyOption buyOption) {

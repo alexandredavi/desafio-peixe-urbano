@@ -17,7 +17,7 @@ import {faPencilAlt, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 import {DealTypePipePipe} from './modules/deal/deal-type.pipe';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CommonModule} from '@angular/common';
+import {NgxCurrencyModule} from 'ngx-currency';
 
 library.add(faPencilAlt, faTrashAlt);
 
@@ -37,6 +37,7 @@ library.add(faPencilAlt, faTrashAlt);
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
+    NgxCurrencyModule,
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
     ToastrModule.forRoot()

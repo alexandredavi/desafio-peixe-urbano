@@ -1,1 +1,112 @@
-buy option
+<div class="container" style="padding-top: 20px">
+  <form (ngSubmit)="submit()" [formGroup]="form">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+            <label for="title">Titulo</label>
+            <input id="title" formControlName="title" type="text" class="form-control" [(ngModel)]="buyOption.title">
+            <span *ngIf="form.controls.title && !form.controls.title.valid && !form.controls.title.pristine && form.controls.title.touched && form.controls.title.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.title.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="normalPrice">Preço de venda normal</label>
+          <input id="normalPrice" formControlName="normalPrice" type="text" class="form-control" [(ngModel)]="buyOption.normalPrice"
+                 currencyMask
+                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+                  (ngModelChange)="calculateSalePrice()">
+          <span *ngIf="form.controls.normalPrice && !form.controls.normalPrice.valid && !form.controls.normalPrice.pristine && form.controls.normalPrice.touched && form.controls.normalPrice.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.normalPrice.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="percentageDiscount">Percentual de desconto</label>
+          <input id="percentageDiscount" name="percentageDiscount" type="text" class="form-control"
+                 [(ngModel)]="buyOption.percentageDiscount" (ngModelChange)="calculateSalePrice()" [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="salePrice">Preço de venda com desconto</label>
+          <input id="salePrice" name="salePrice" disabled type="text" class="form-control" currencyMask [(ngModel)]="buyOption.salePrice" [ngModelOptions]="{standalone: true}"
+                 [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="startDate">Data de entrada</label>
+          <input id="startDate" formControlName="startDate" type="text" class="form-control"
+                 bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                 [(ngModel)]="buyOption.startDate">
+          <span *ngIf="form.controls.startDate && !form.controls.startDate.valid && !form.controls.startDate.pristine && form.controls.startDate.touched && form.controls.startDate.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.startDate.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="endDate">	Data de saída</label>
+          <input id="endDate" formControlName="endDate" type="text" class="form-control"
+                 bsDatepicker
+                 [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                 [(ngModel)]="buyOption.endDate">
+          <span *ngIf="form.controls.endDate && !form.controls.endDate.valid && !form.controls.endDate.pristine && form.controls.endDate.touched && form.controls.endDate.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.endDate.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <button class="form-control btn btn-primary" type="submit">Salvar</button>
+      </div>
+    </div>
+  </form>
+  <div class="row" style="padding-top: 20px">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Título</th>
+          <th scope="col">Preço de venda normal</th>
+          <th scope="col">Preço de venda com desconto</th>
+          <th scope="col">Data de entrada</th>
+          <th scope="col">Data de saída</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let buyOption of buyOptions">
+          <td>{{buyOption.title}}</td>
+          <td>{{buyOption.normalPrice | currency: 'R$'}}</td>
+          <td>{{buyOption.salePrice | currency: 'R$'}}</td>
+          <td>{{buyOption.startDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{buyOption.endDate | date: 'dd/MM/yyyy'}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-outline hover-btn-icon-info"
+                    tooltip="Editar" (click)="edit(buyOption)">
+              <fa-icon icon="pencil-alt"></fa-icon>
+            </button>
+          </td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-outline hover-btn-icon-info"
+                    tooltip="Excluir" (click)="remove(buyOption.id)">
+              <fa-icon icon="trash-alt"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
