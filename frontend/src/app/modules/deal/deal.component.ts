@@ -4,6 +4,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {markAllFormFieldAsDirty, markAllFormFieldAsPristine} from '../../utils/form-utils';
+import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-deal-component',
@@ -17,6 +19,7 @@ export class DealComponent implements OnInit {
 
   constructor(private httpClient: HttpClient,
               private toastr: ToastrService,
+              private router: Router,
               private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
       dealTitle: [null, [Validators.required]],
@@ -38,7 +41,7 @@ export class DealComponent implements OnInit {
 
   private save() {
     if (this.deal.id) {
-      this.httpClient.put('http://localhost:8080/deal/' + this.deal.id, this.deal).subscribe(() => {
+      this.httpClient.put(environment.url + 'deal/' + this.deal.id, this.deal).subscribe(() => {
         this.ngOnInit();
         this.toastr.success('Salvo com sucesso');
         this.deal = new Deal();
@@ -49,7 +52,7 @@ export class DealComponent implements OnInit {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json'
       });
-      this.httpClient.post('http://localhost:8080/deal', body, {headers: headers, responseType: 'text'}).subscribe(() => {
+      this.httpClient.post(environment.url + 'deal', body, {headers: headers, responseType: 'text'}).subscribe(() => {
         this.ngOnInit();
         this.toastr.success('Salvo com sucesso');
         this.deal = new Deal();
@@ -59,7 +62,7 @@ export class DealComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get('http://localhost:8080/deal').subscribe((data: Array<Deal>) => this.deals = data);
+    this.httpClient.get(environment.url + 'deal').subscribe((data: Array<Deal>) => this.deals = data);
   }
 
   edit(deal: Deal) {
@@ -68,7 +71,7 @@ export class DealComponent implements OnInit {
   }
 
   remove(id: string) {
-    this.httpClient.delete('http://localhost:8080/deal/' + id).subscribe(() => {
+    this.httpClient.delete(environment.url + 'deal/' + id).subscribe(() => {
       if (this.deal.id === id) {
         this.deal = new Deal();
         markAllFormFieldAsPristine(this.form);
@@ -76,5 +79,9 @@ export class DealComponent implements OnInit {
       this.ngOnInit();
       this.toastr.success('Excluido com sucesso');
     });
+  }
+
+  buyOptions(id: string) {
+    this.router.navigate(['association', id]);
   }
 }

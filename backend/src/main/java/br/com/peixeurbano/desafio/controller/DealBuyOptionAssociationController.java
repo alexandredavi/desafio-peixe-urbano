@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.peixeurbano.desafio.document.BuyOption;
 import br.com.peixeurbano.desafio.document.DealBuyOptionAssociation;
 import br.com.peixeurbano.desafio.dto.DealBuyOptionAssociationDto;
+import br.com.peixeurbano.desafio.dto.DealBuyOptionAssociationListDto;
 import br.com.peixeurbano.desafio.manager.DealBuyOptionAssociationManager;
 
 @RestController
@@ -39,10 +41,10 @@ public class DealBuyOptionAssociationController {
   }
 
   @GetMapping
-  public ResponseEntity<List<DealBuyOptionAssociationDto>> findAll() {
+  public ResponseEntity<List<DealBuyOptionAssociationListDto>> findAll() {
     List<DealBuyOptionAssociation> dealBuyOptionAssociations = manager.findAll();
     if (!dealBuyOptionAssociations.isEmpty()) {
-      return ResponseEntity.ok(dealBuyOptionAssociations.stream().map(this::documentToDto).collect(Collectors.toList()));
+      return ResponseEntity.ok(dealBuyOptionAssociations.stream().map(this::documentToListDto).collect(Collectors.toList()));
     }
     return ResponseEntity.noContent().build();
   }
@@ -58,11 +60,28 @@ public class DealBuyOptionAssociationController {
     return ResponseEntity.ok().build();
   }
 
+  @GetMapping("/deal/{id}")
+  public ResponseEntity<List<BuyOption>> findBuyOptionByDeal(@PathVariable("id") String id) {
+    List<BuyOption> dealBuyOptionAssociations = manager.findBuyOptionByDeal(id);
+    if (!dealBuyOptionAssociations.isEmpty()) {
+      return ResponseEntity.ok(dealBuyOptionAssociations);
+    }
+    return ResponseEntity.noContent().build();
+  }
+
   private DealBuyOptionAssociationDto documentToDto(DealBuyOptionAssociation association) {
     DealBuyOptionAssociationDto dto = new DealBuyOptionAssociationDto();
     dto.setId(association.getId());
     dto.setDealId(association.getDeal().getId());
     dto.setBuyOptionId(association.getBuyOption().getId());
+    return dto;
+  }
+
+  private DealBuyOptionAssociationListDto documentToListDto(DealBuyOptionAssociation association) {
+    DealBuyOptionAssociationListDto dto = new DealBuyOptionAssociationListDto();
+    dto.setId(association.getId());
+    dto.setDeal(association.getDeal().getTitle());
+    dto.setBuyOption(association.getBuyOption().getTitle());
     return dto;
   }
 }

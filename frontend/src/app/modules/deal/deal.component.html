@@ -77,8 +77,10 @@
           <th scope="col">Titulo da oferta</th>
           <th scope="col">Texto de destaque</th>
           <th scope="col">Tipo</th>
+          <th scope="col">Cupons vendidos</th>
           <th scope="col">Data de publicação</th>
           <th scope="col">Validade</th>
+          <th scope="col"></th>
           <th scope="col"></th>
           <th scope="col"></th>
         </tr>
@@ -88,8 +90,15 @@
           <td>{{deal.title}}</td>
           <td>{{deal.text}}</td>
           <td>{{deal.type | dealTypePipe}}</td>
+          <td>{{deal.totalSold}}</td>
           <td>{{deal.publishDate | date: 'dd/MM/yyyy'}}</td>
           <td>{{deal.endDate}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-outline hover-btn-icon-info"
+                    tooltip="Opções de compra" (click)="buyOptions(deal.id)">
+              <fa-icon icon="shopping-cart"></fa-icon> Opções de compra
+            </button>
+          </td>
           <td class="text-center">
             <button type="button" class="btn btn-default btn-outline hover-btn-icon-info"
                     tooltip="Editar" (click)="edit(deal)">

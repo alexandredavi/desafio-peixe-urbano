@@ -1,0 +1,54 @@
+<div class="container" style="padding-top: 20px">
+  <form (ngSubmit)="submit()" [formGroup]="form">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="form-group">
+            <label for="dealTitle">Titulo da oferta</label>
+            <input id="dealTitle" name="dealTitle" type="text" disabled class="form-control" [(ngModel)]="deal.title" [ngModelOptions]="{standalone: true}">
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="buyOption">Opção de compra</label>
+          <select class="form-control" formControlName="buyOption" id="buyOption" [(ngModel)]="association.buyOptionId">
+            <option></option>
+            <option *ngFor="let buyOption of buyOptions" [value]="buyOption.id">{{buyOption.title}}</option>
+          </select>
+          <span *ngIf="form.controls.buyOption && !form.controls.buyOption.valid && !form.controls.buyOption.pristine && form.controls.buyOption.touched && form.controls.buyOption.errors" class="help-block text-danger">
+              <span *ngIf="form.controls.buyOption.hasError('required')">Este campo é obrigatório</span>
+            </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <button class="form-control btn btn-primary" type="submit">Salvar</button>
+      </div>
+    </div>
+  </form>
+  <div class="row" style="padding-top: 20px">
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Titulo da oferta</th>
+          <th scope="col">Opção de compra</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let association of associations">
+          <td>{{association.deal}}</td>
+          <td>{{association.buyOption}}</td>
+          <td class="text-center">
+            <button type="button" class="btn btn-default btn-outline hover-btn-icon-info"
+                    tooltip="Excluir" (click)="remove(association.id)">
+              <fa-icon icon="trash-alt"></fa-icon>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

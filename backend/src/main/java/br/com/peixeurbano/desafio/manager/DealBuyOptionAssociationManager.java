@@ -1,7 +1,9 @@
 package br.com.peixeurbano.desafio.manager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +52,13 @@ public class DealBuyOptionAssociationManager {
     association.setDeal(deal.get());
     association.setBuyOption(buyOption.get());
     return repository.save(association).getId();
+  }
+
+  public List<BuyOption> findBuyOptionByDeal(String id) {
+    Optional<Deal> deal = dealManager.findById(id);
+    return deal.map(dealOptional -> repository.findByDealId(dealOptional.getId()).stream().map(association -> {
+      Optional<BuyOption> buyOptionOptional = buyOptionManager.findById(association.getBuyOption().getId());
+      return buyOptionOptional.orElse(null);
+    }).collect(Collectors.toList())).orElseGet(ArrayList::new);
   }
 }

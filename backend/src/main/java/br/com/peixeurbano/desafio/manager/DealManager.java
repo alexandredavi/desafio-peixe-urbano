@@ -44,4 +44,11 @@ public class DealManager {
   public void delete(String id) {
     repository.deleteById(id);
   }
+
+  public void updateTotalSold(String dealId) {
+    findById(dealId).ifPresent(deal -> {
+      deal.setTotalSold(deal.getTotalSold() + 1);
+      repository.save(deal);
+    });
+  }
 }

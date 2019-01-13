@@ -1,1 +1,19 @@
-deal search
+<div class="container" style="padding-top: 20px">
+    <div class="row" *ngFor="let deal of deals" style="border-bottom: 1px solid; margin-top: 5px">
+      <div class="col-md-2">
+        {{deal.deal.text}}
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          <label for="buyOption">Opção de compra</label>
+          <select class="form-control" name="buyOption" id="buyOption" [(ngModel)]="deal.selectedBuyOptionId">
+            <option></option>
+            <option *ngFor="let buyOption of deal.buyOptions" [value]="buyOption.id">{{buyOption.title}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button class="form-control btn btn-primary" (click)="buy(deal.deal.id, deal.selectedBuyOptionId)">Comprar</button>
+      </div>
+    </div>
+</div>

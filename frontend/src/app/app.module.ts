@@ -13,16 +13,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {library} from '@fortawesome/fontawesome-svg-core';
-import {faPencilAlt, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+import {faPencilAlt, faTrashAlt, faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import {DealTypePipePipe} from './modules/deal/deal-type.pipe';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxCurrencyModule} from 'ngx-currency';
+import {AssociationComponent} from './modules/association/association.component';
 
-library.add(faPencilAlt, faTrashAlt);
+library.add(faPencilAlt, faTrashAlt, faShoppingCart);
 
 @NgModule({
   declarations: [
+    AssociationComponent,
     AppComponent,
     BuyOptionComponent,
     DealComponent,

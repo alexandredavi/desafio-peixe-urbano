@@ -4,6 +4,7 @@ import {ToastrService} from 'ngx-toastr';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {markAllFormFieldAsDirty, markAllFormFieldAsPristine} from '../../utils/form-utils';
 import {BuyOption} from './buy-option';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-buy-option-component',
@@ -37,7 +38,7 @@ export class BuyOptionComponent implements OnInit {
 
   private save() {
     if (this.buyOption.id) {
-      this.httpClient.put('http://localhost:8080/buy-option/' + this.buyOption.id, this.buyOption).subscribe(() => {
+      this.httpClient.put(environment.url + 'buy-option/' + this.buyOption.id, this.buyOption).subscribe(() => {
         this.ngOnInit();
         this.toastr.success('Salvo com sucesso');
         this.buyOption = new BuyOption();
@@ -48,7 +49,7 @@ export class BuyOptionComponent implements OnInit {
       const headers = new HttpHeaders({
         'Content-Type': 'application/json'
       });
-      this.httpClient.post('http://localhost:8080/buy-option', body, {headers: headers, responseType: 'text'}).subscribe(() => {
+      this.httpClient.post(environment.url + 'buy-option', body, {headers: headers, responseType: 'text'}).subscribe(() => {
         this.ngOnInit();
         this.toastr.success('Salvo com sucesso');
         this.buyOption = new BuyOption();
@@ -58,7 +59,7 @@ export class BuyOptionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpClient.get('http://localhost:8080/buy-option').subscribe((data: Array<BuyOption>) => this.buyOptions = data);
+    this.httpClient.get(environment.url + 'buy-option').subscribe((data: Array<BuyOption>) => this.buyOptions = data);
   }
 
   edit(buyOption: BuyOption) {
@@ -68,7 +69,7 @@ export class BuyOptionComponent implements OnInit {
   }
 
   remove(id: string) {
-    this.httpClient.delete('http://localhost:8080/buy-option/' + id).subscribe(() => {
+    this.httpClient.delete(environment.url + 'buy-option/' + id).subscribe(() => {
       if (this.buyOption.id === id) {
         this.buyOption = new BuyOption();
         markAllFormFieldAsPristine(this.form);
@@ -79,7 +80,6 @@ export class BuyOptionComponent implements OnInit {
   }
 
   calculateSalePrice() {
-    console.log('calc')
     if (this.buyOption.percentageDiscount) {
       this.buyOption.salePrice = this.buyOption.normalPrice - (this.buyOption.normalPrice * this.buyOption.percentageDiscount / 100);
     } else {

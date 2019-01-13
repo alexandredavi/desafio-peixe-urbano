@@ -39,4 +39,11 @@ public class BuyOptionManager {
   public void delete(String id) {
     repository.deleteById(id);
   }
+
+  public void sellUnity(String buyOptionId) {
+    findById(buyOptionId).ifPresent(buyOption -> {
+      buyOption.setQuantityCupom(buyOption.getQuantityCupom() + 1);
+      repository.save(buyOption);
+    });
+  }
 }
