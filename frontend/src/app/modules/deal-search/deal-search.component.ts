@@ -23,7 +23,7 @@ export class DealSearchComponent implements OnInit {
         data.forEach(value => {
           const dealSearch: DealSearch = new DealSearch();
           dealSearch.deal = value;
-          this.httpClient.get('http://localhost:8080/deal-buy-option-association/deal/' + value.id)
+          this.httpClient.get(environment.url + 'deal-buy-option-association/deal/' + value.id)
             .subscribe((buyOptions: Array<BuyOption>) => {
               dealSearch.buyOptions = buyOptions;
             });
